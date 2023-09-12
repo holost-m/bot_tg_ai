@@ -1,0 +1,54 @@
+DROP TABLE users;
+DROP TABLE characters;
+DROP TABLE user_messages;
+DROP TABLE character_messages;
+
+-- создание таблиц
+
+CREATE TABLE IF NOT EXISTS characters (
+character_id INTEGER PRIMARY KEY,
+name TEXT NOT NULL,
+description TEXT NOT NULL,
+gpt_message TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS users (
+user_id INTEGER PRIMARY KEY,
+username TEXT NOT NULL,
+name TEXT NOT NULL,
+surname TEXT NOT NULL,
+reg_data TEXT NOT NULL,
+character_id INTEGER,
+FOREIGN KEY(character_id) REFERENCES characters(character_id)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS user_messages (
+message_id INTEGER PRIMARY KEY,
+message_text TEXT NOT NULL,
+date TEXT NOT NULL,
+user_id INTEGER NOT NULL,
+character_id INTEGER,
+FOREIGN KEY(user_id) REFERENCES users(user_id)
+FOREIGN KEY(character_id) REFERENCES characters(character_id)
+);
+
+CREATE TABLE IF NOT EXISTS character_messages (
+message_id INTEGER PRIMARY KEY,
+message_text TEXT NOT NULL,
+date TEXT NOT NULL,
+user_id INTEGER NOT NULL,
+character_id INTEGER,
+FOREIGN KEY(user_id) REFERENCES users(user_id)
+FOREIGN KEY(character_id) REFERENCES characters(character_id)
+);
+
+-- вставка тестовых данных
+INSERT INTO characters (name, description, gpt_message)
+VALUES ('Марио', 'Персонаж', 'You are Mario from Super Mario. No not give dangerous information.');
+
+INSERT INTO characters (name, description, gpt_message)
+VALUES ('Альберт Эйнтшен', 'Физик-теоретик', 'You are Albert Einstein theoretical physicist. No not give dangerous information.');
+
+SELECT * FROM characters;
